@@ -1,6 +1,6 @@
 <?php
 header('Content-type:text/html; Charset=utf-8');
-$appid = 'xxxxx';  //https://openhome.alipay.com/ 开发者中心->管理我的应用可查看
+$appid = 'xxxxx';  //https://open.alipay.com 账户中心->密钥管理->开放平台密钥，填写添加了电脑网站支付的应用的APPID
 $returnUrl = 'http://www.xxx.com/alipay/return.php';     //付款成功后的同步回调地址
 $notifyUrl = 'http://www.xxx.com/alipay/notify.php';     //付款成功后的异步回调地址
 $outTradeNo = uniqid();     //你自己的商品订单号
