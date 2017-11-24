@@ -5,6 +5,10 @@
 
 一个PHP文件搞定微信支付系列请移步：https://github.com/dedemao/weixinPay
 
+# PHP版本兼容
+
+PHP 5.0+
+
 # 文件对应说明
 
 pc.php	  电脑网站支付
