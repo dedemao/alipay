@@ -5,9 +5,9 @@
 
 一个PHP文件搞定微信支付系列请移步：https://github.com/dedemao/weixinPay
 
-# PHP版本兼容
+# 环境依赖
 
-PHP 5.0+
+PHP5.0以上，且需要开启CURL服务、SSL服务。
 
 # 文件对应说明
 
