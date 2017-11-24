@@ -18,8 +18,7 @@ class AlipayService
     protected $appId;
     protected $returnUrl;
     protected $notifyUrl;
-    //私钥文件路径
-    protected $rsaPrivateKeyFilePath;
+    protected $charset;
     //私钥值
     protected $rsaPrivateKey;
 
