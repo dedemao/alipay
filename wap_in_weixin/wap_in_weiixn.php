@@ -44,7 +44,6 @@ class AlipayService
             'product_code'=>'QUICK_WAP_WAY',
             'total_amount'=>$totalFee, //单位 元
             'subject'=>$orderName,  //订单标题
-            'seller_id'=>$this->appId
         );
         $commonConfigs = array(
             //公共参数
