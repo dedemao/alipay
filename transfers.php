@@ -61,7 +61,6 @@ class AlipayService
         );
         $commonConfigs["sign"] = $this->generateSign($commonConfigs, $commonConfigs['sign_type']);
         $result = $this->curlPost('https://openapi.alipay.com/gateway.do',$commonConfigs);
-        var_dump($result);die;
         return json_decode($result,true);
     }
 
