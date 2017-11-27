@@ -17,6 +17,8 @@ wap.php   手机网站支付
 
 qrcode.php   当面付（扫码支付）
 
+transfers.php	单笔转账到支付宝账户
+
 return.php   同步回调通知
 
 notify.php   异步回调通知
