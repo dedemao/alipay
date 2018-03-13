@@ -5,6 +5,9 @@
 
 一个PHP文件搞定微信支付系列请移步：https://github.com/dedemao/weixinPay
 
+# 在线演示
+https://www.dedemao.com/alipay/demo.html
+
 # 环境依赖
 
 PHP5.0以上，且需要开启CURL服务、SSL服务。
