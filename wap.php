@@ -1,62 +1,99 @@
 <?php
 header('Content-type:text/html; Charset=utf-8');
+/*** 请填写以下配置信息 ***/
 $appid = 'xxxxx';  //https://open.alipay.com 账户中心->密钥管理->开放平台密钥，填写添加了电脑网站支付的应用的APPID
 $returnUrl = 'http://www.xxx.com/alipay/return.php';     //付款成功后的同步回调地址
 $notifyUrl = 'http://www.xxx.com/alipay/notify.php';     //付款成功后的异步回调地址
 $outTradeNo = uniqid();     //你自己的商品订单号
 $payAmount = 0.01;          //付款金额，单位:元
 $orderName = '支付测试';    //订单标题
-$signType = 'RSA2';       //签名算法类型，支持RSA2和RSA，推荐使用RSA2
-//商户私钥，填写对应签名算法类型的私钥，如何生成密钥参考：https://docs.open.alipay.com/291/105971和https://docs.open.alipay.com/200/105310
-$saPrivateKey='MIIEpAIBAAKCAQEA1MV+OY6MvGfXPM0MkpjT+FdzGmPOvVmX2wF3gjwQpeHBEUP9jLXhVS32fZ1iXI1e7WUGQ5tvXn28P8190kpOn/c/G5t2CAksUvemvF7uJN/N3Z1HFMdt3omvCd14K05lgcFYz7Z4c+A7ZJF5bPCB6oshjjUmbCY3hibuWzX/1j8AgsoD9lLyxoFqxLj98k5ZrYIhk900gMQs/WJ3A1FC09Dln9fuhBUyjtPHaml+4w+sdkdzxPktxdFrMcI7M7rNEwg25XtST5Z49oFpE84AlXM7+oC9jYvIpTGE00WomsgtakN039ucT/59Bup6pLkO08Rv85UXbqzGTcYAhNHLfQIDAQABAoIBAQCbuPM58s+j8KgB8ty5yiqRPoeaj+O2h4Txn7A02/sfPQvNtCI0wsTpT5twsihULo+EVYTxJCitUn7df2sP5pyGzTEd5njLRtNu4Zvhj+Thjf1grERiu9b4oXI/WRzjLRxzi+uREi40OK+fWi0xgxDCdROY/eNiEdJfV8zpaqsUxG7VdwZIJQ/8d3Mi31OWv30kr9jfEd15DBInGJgSqR+qwrAB4pBSMcW8hL6PYlzoPi1ygceFjRrnbeMG40zt0OUPSexQIgAmFvGqxTl5xo3dFEziGHdfWYsBKZ2M8ubAe+R6LcndxI+o2Hw4TNcC1tDeNMtjw7+h9S5aef5A8uWBAoGBAPxCLWPhUHCYlIXUz0D1SoolZs9WK7Kz1YSWnzqrpegN+foS5/ji93YylGE+KL31TwbnGQLAwknwMX3qTzmkvTovmy8jevXBsCSEFm81q0wG/35e1SKkTXL66RqB2y0xFLdcF3f9s8ZiEclqkYwNSHh0nqzREfIxMMAsj+3n2vHdAoGBANftYkZYrbs4iI/ZcjmBYguYikNfNmrD+Ta6ckOGZqsHfwXJCAz1rF4/XCqVAc9nxuzJR/72qkn9z07uH6qSZCqlZDRki2KaK2UVqFDB+0abMk/TGHXuMmdvMkyj2jEZxG2rkg0kmg4qYkkg/5tGG1On/0GeZNVPu8JpsFr1pDYhAoGBANr8pCTKC6fDfWP1C3qrtmrY7zhc6RB4d4pjq5UmP5+EypaiZQi2F/dfD1qfuIS3eURXyGmQZtoDDyPtDZvP/ImPnFs+pNbFryD0HfmrEKquhIvyzXoGQknnsgbV5iyEKCTJaII9FxzINAKzZei7+0a+jqUd1kN3Gogp50Sze2ltAoGARaM5Xpaa8RZ6dGocfI9Nn4/Ch5fdZPFvHkdjMoPV+LKiNKtw/Tz+KiclAlasDsfZT+RaY9AJe3NvuHTzoX807swIVR1Xr3EpLaCed+0XrN3AjB34dZAskU87WZw+cjdtMjFzGOoFBSyGJi+OP/WMOp6jo/YBbwoX88tCJROzsgECgYAT8pHHIyPt5Y/5pDb8EDvD3XNES1fBkfZffSoAodsrkeoKgrsKl+9M3rcGX+S9dscyoH0ur3BFTMHtIOOhC5qytt+BhMHIP5mAs4di4u/joQCWQbUyrUggVK5it+6BFgAT+jeB7zTAUtgGpTVFq3kLbV0NZ+XQyEHVlnoJnHYpQg==';
-$aliPay = new AlipayService($appid,$returnUrl,$notifyUrl,$saPrivateKey);
-$sHtml = $aliPay->doPay($payAmount,$outTradeNo,$orderName,$returnUrl,$notifyUrl);
+$signType = 'RSA2';			//签名算法类型，支持RSA2和RSA，推荐使用RSA2
+$rsaPrivateKey='xxxxx';		//商户私钥，填写对应签名算法类型的私钥，如何生成密钥参考：https://docs.open.alipay.com/291/105971和https://docs.open.alipay.com/200/105310
+/*** 配置结束 ***/
+$aliPay = new AlipayService();
+$aliPay->setAppid($appid);
+$aliPay->setNotifyUrl($notifyUrl);
+$aliPay->setRsaPrivateKey($rsaPrivateKey);
+$aliPay->setTotalFee($payAmount);
+$aliPay->setOutTradeNo($outTradeNo);
+$aliPay->setOrderName($orderName);
+$sHtml = $aliPay->doPay();
 echo $sHtml;
 class AlipayService
 {
     protected $appId;
+    protected $charset;
     protected $returnUrl;
     protected $notifyUrl;
-    protected $charset;
     //私钥值
     protected $rsaPrivateKey;
-    public function __construct($appid, $returnUrl, $notifyUrl,$saPrivateKey)
+    protected $totalFee;
+    protected $outTradeNo;
+    protected $orderName;
+    public function __construct()
+    {
+        $this->charset = 'utf8';
+    }
+    public function setAppid($appid)
     {
         $this->appId = $appid;
-        $this->returnUrl = $returnUrl;
-        $this->notifyUrl = $notifyUrl;
-        $this->charset = 'utf8';
-        $this->rsaPrivateKey=$saPrivateKey;
     }
+
+    public function setReturnUrl($returnUrl)
+    {
+        $this->returnUrl = $returnUrl;
+    }
+
+
+    public function setNotifyUrl($notifyUrl)
+    {
+        $this->notifyUrl = $notifyUrl;
+    }
+
+    public function setRsaPrivateKey($rsaPrivateKey)
+    {
+        $this->rsaPrivateKey = $rsaPrivateKey;
+    }
+
+    public function setTotalFee($payAmount)
+    {
+        $this->totalFee = $payAmount;
+    }
+
+    public function setOutTradeNo($outTradeNo)
+    {
+        $this->outTradeNo = $outTradeNo;
+    }
+
+    public function setOrderName($orderName)
+    {
+        $this->orderName = $orderName;
+    }
+
     /**
      * 发起订单
-     * @param float $totalFee 收款总费用 单位元
-     * @param string $outTradeNo 唯一的订单号
-     * @param string $orderName 订单名称
-     * @param string $notifyUrl 支付结果通知url 不要有问号
-     * @param string $timestamp 订单发起时间
      * @return array
      */
-    public function doPay($totalFee, $outTradeNo, $orderName, $returnUrl,$notifyUrl)
+    public function doPay()
     {
         //请求参数
         $requestConfigs = array(
-            'out_trade_no'=>$outTradeNo,
+            'out_trade_no'=>$this->outTradeNo,
             'product_code'=>'QUICK_WAP_WAY',
-            'total_amount'=>$totalFee, //单位 元
-            'subject'=>$orderName,  //订单标题
+            'total_amount'=>$this->totalFee, //单位 元
+            'subject'=>$this->orderName,  //订单标题
         );
         $commonConfigs = array(
             //公共参数
             'app_id' => $this->appId,
             'method' => 'alipay.trade.wap.pay',             //接口名称
             'format' => 'JSON',
-            'return_url' => $returnUrl,
+            'return_url' => $this->returnUrl,
             'charset'=>$this->charset,
             'sign_type'=>'RSA2',
             'timestamp'=>date('Y-m-d H:i:s'),
             'version'=>'1.0',
-            'notify_url' => $notifyUrl,
+            'notify_url' => $this->notifyUrl,
             'biz_content'=>json_encode($requestConfigs),
         );
         $commonConfigs["sign"] = $this->generateSign($commonConfigs, $commonConfigs['sign_type']);
