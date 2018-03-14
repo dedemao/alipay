@@ -1,16 +1,24 @@
 <?php
 header('Content-type:text/html; Charset=utf-8');
-$appid = 'xxxxxx';  //https://open.alipay.com 账户中心->密钥管理->开放平台密钥，填写添加了“当面付”的应用的APPID
-$notifyUrl = 'https://www.xxx.com/xxx/notify.php';     //付款成功后的异步回调地址
-$outTradeNo = uniqid();     //你自己的商品订单号
-$payAmount = 0.01;          //付款金额，单位:元
+/*** 请填写以下配置信息 ***/
+$appid = 'xxxxx';  //https://open.alipay.com 账户中心->密钥管理->开放平台密钥，填写添加了“当面付”的应用的APPID
+$notifyUrl = 'http://www.xxx.com/alipay/notify.php';     //付款成功后的异步回调地址
+$outTradeNo = uniqid();     //你自己的商品订单号，不能重复
+$payAmount = 0.01;         //付款金额，单位:元
 $orderName = '支付测试';    //订单标题
 $signType = 'RSA2';       //签名算法类型，支持RSA2和RSA，推荐使用RSA2
-$authCode = '';           //用户付款码（激光器读取到的条码数字，或 点击支付宝APP-》付款-》上面有显示一串数字）
-$saPrivateKey='';		  //商户私钥，填写对应签名算法类型的私钥，如何生成密钥参考：https://docs.open.alipay.com/291/105971和https://docs.open.alipay.com/200/105310
-
-$aliPay = new AlipayService($appid,$notifyUrl,$saPrivateKey);
-$result = $aliPay->doPay($payAmount,$outTradeNo,$orderName,$notifyUrl,$authCode);
+$authCode = '';           //用户付款码（商户设备扫描用户二维码读取到的条码数字，或 点击支付宝APP-》付钱-》上面有显示一串数字）
+$rsaPrivateKey='';		  //商户私钥，填写对应签名算法类型的私钥，如何生成密钥参考：https://docs.open.alipay.com/291/105971和https://docs.open.alipay.com/200/105310
+/*** 配置结束 ***/
+$aliPay = new AlipayService();
+$aliPay->setAppid($appid);
+$aliPay->setNotifyUrl($notifyUrl);
+$aliPay->setRsaPrivateKey($rsaPrivateKey);
+$aliPay->setTotalFee($payAmount);
+$aliPay->setOutTradeNo($outTradeNo);
+$aliPay->setOrderName($orderName);
+$aliPay->setAuthCode($authCode);
+$result = $aliPay->doPay();
 $result = $result['alipay_trade_pay_response'];
 if($result['code'] && $result['code']=='10000'){
     echo '支付成功';
@@ -22,38 +30,70 @@ if($result['code'] && $result['code']=='10000'){
 class AlipayService
 {
     protected $appId;
+    protected $charset;
     protected $notifyUrl;
-    //私钥文件路径
-    protected $rsaPrivateKeyFilePath;
     //私钥值
     protected $rsaPrivateKey;
-    public function __construct($appid, $notifyUrl,$saPrivateKey)
+    protected $totalFee;
+    protected $outTradeNo;
+    protected $orderName;
+    protected $authCode;
+
+    public function __construct()
+    {
+        $this->charset = 'utf8';
+    }
+
+    public function setAppid($appid)
     {
         $this->appId = $appid;
-        $this->notifyUrl = $notifyUrl;
-        $this->charset = 'utf8';
-        $this->rsaPrivateKey=$saPrivateKey;
     }
+
+    public function setNotifyUrl($notifyUrl)
+    {
+        $this->notifyUrl = $notifyUrl;
+    }
+
+    public function setRsaPrivateKey($rsaPrivateKey)
+    {
+        $this->rsaPrivateKey = $rsaPrivateKey;
+    }
+
+    public function setTotalFee($payAmount)
+    {
+        $this->totalFee = $payAmount;
+    }
+
+    public function setOutTradeNo($outTradeNo)
+    {
+        $this->outTradeNo = $outTradeNo;
+    }
+
+    public function setOrderName($orderName)
+    {
+        $this->orderName = $orderName;
+    }
+
+    public function setAuthCode($authCode)
+    {
+        $this->authCode = $authCode;
+    }
+
     /**
      * 发起订单
-     * @param float $totalFee 收款总费用 单位元
-     * @param string $outTradeNo 唯一的订单号
-     * @param string $orderName 订单名称
-     * @param string $notifyUrl 支付结果通知url 不要有问号
-     * @param string $authCode 用户付款码（点击支付宝APP-》付款-》上面有显示一串数字）
      * @return array
      */
-    public function doPay($totalFee, $outTradeNo, $orderName, $notifyUrl,$authCode)
+    public function doPay()
     {
         //请求参数
         $requestConfigs = array(
-            'out_trade_no'=>$outTradeNo,
-            'scene'=>'bar_code',            //条码支付固定传入bar_code
-            'auth_code'=>$authCode,         //用户付款码，25~30开头的长度为16~24位的数字，实际字符串长度以开发者获取的付款码长度为准
-            'total_amount'=>$totalFee,      //单位 元
-            'subject'=>$orderName,          //订单标题
-            'store_id'=>'DEDEMAO_001',      //商户门店编号
-            'timeout_express'=>'2m',        //交易超时时间
+            'out_trade_no'=>$this->outTradeNo,
+            'scene'=>'bar_code',                //条码支付固定传入bar_code
+            'auth_code'=>$this->authCode,         //用户付款码，25~30开头的长度为16~24位的数字，实际字符串长度以开发者获取的付款码长度为准
+            'total_amount'=>$this->totalFee,      //单位 元
+            'subject'=>$this->orderName,          //订单标题
+            'store_id'=>'DEDEMAO_001',          //商户门店编号
+            'timeout_express'=>'2m',            //交易超时时间
         );
         $commonConfigs = array(
             //公共参数
@@ -64,7 +104,7 @@ class AlipayService
             'sign_type'=>'RSA2',
             'timestamp'=>date('Y-m-d H:i:s'),
             'version'=>'1.0',
-            'notify_url' => $notifyUrl,
+            'notify_url' => $this->notifyUrl,
             'biz_content'=>json_encode($requestConfigs),
         );
         $commonConfigs["sign"] = $this->generateSign($commonConfigs, $commonConfigs['sign_type']);
