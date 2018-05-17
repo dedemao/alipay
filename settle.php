@@ -97,7 +97,7 @@ class AlipayService
                     'trans_out'=>$this->tranOut,
                     'trans_in'=>$this->tranIn,
                     'amount'=>$this->totalFee,
-                    'amount_percentage'=>100,
+                    //'amount_percentage'=>100,
                     'desc'=>'分账给'.$this->tranIn,
                 )
             ),
