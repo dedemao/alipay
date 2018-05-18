@@ -26,6 +26,8 @@ transfers.php	单笔转账到支付宝账户
 
 settle.php   交易结算（分账、分润）
 
+authorize.php  网页授权获取用户信息
+
 return.php   同步回调通知
 
 notify.php   异步回调通知
