@@ -61,7 +61,12 @@ class AlipayService
         );
         $commonConfigs["sign"] = $this->generateSign($commonConfigs, $commonConfigs['sign_type']);
         $result = $this->curlPost('https://openapi.alipay.com/gateway.do',$commonConfigs);
-        return json_decode($result,true);
+        $resultArr = json_decode($result,true);
+        if(empty($resultArr)){
+            $result = iconv('GBK','UTF-8//IGNORE',$result);
+            return json_decode($result,true);
+        }
+        return $resultArr;
     }
 
     public function generateSign($params, $signType = "RSA") {
