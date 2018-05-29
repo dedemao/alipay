@@ -12,6 +12,7 @@ $rsaPrivateKey='xxxxx';		//商户私钥，填写对应签名算法类型的私�
 /*** 配置结束 ***/
 $aliPay = new AlipayService();
 $aliPay->setAppid($appid);
+$aliPay->setReturnUrl($returnUrl);
 $aliPay->setNotifyUrl($notifyUrl);
 $aliPay->setRsaPrivateKey($rsaPrivateKey);
 $aliPay->setTotalFee($payAmount);
