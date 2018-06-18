@@ -22,6 +22,8 @@ qrcode.php   当面付（扫码支付）
 
 barcode.php   当面付（条码支付）
 
+jsapi.php   js原生支付（支付宝扫码打开网页，在网页中调起支付宝原生支付）
+
 transfers.php	单笔转账到支付宝账户
 
 settle.php   交易结算（分账、分润）
