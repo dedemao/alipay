@@ -1,6 +1,7 @@
 <?php
 /**
  * 接口文档地址：https://docs.open.alipay.com/53/104114
+ *  注意：要在支付宝开放平台应用设置中设置授权回调地址，且只能在该网址下测试。否则会出现网页找不到的情况
  */
 header('Content-type:text/html; Charset=utf-8');
 /*** 请填写以下配置信息 ***/
