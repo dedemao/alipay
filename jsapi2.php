@@ -115,8 +115,7 @@ if(!$tradeNo){
                         alert(data.resultCode+"："+data.memo);
                     }else{
                         //支付成功
-                        var info = eval('(' + data.result + ')');
-                        $(".alert-success").html("<strong>支付成功！</strong> 订单号："+info.alipay_trade_app_pay_response.out_trade_no+" 支付金额：￥"+info.alipay_trade_app_pay_response.total_amount);
+                        $(".alert-success").html("<strong>支付成功！</strong> 订单号：<?=$tradeNo?>");
                         $(".alert-success").show();
                     }
                 });
