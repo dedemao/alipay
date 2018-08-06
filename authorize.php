@@ -139,7 +139,7 @@ class AlipayService
         $urlObj["app_id"] = $this->appId;
         $urlObj["redirect_uri"] = "$redirectUrl";
         $urlObj["scope"] = $this->scope;
-        $urlObj["state"] = "STATE"."#alipay_redirect";
+        $urlObj["state"] = 123456;
         $bizString = $this->ToUrlParams($urlObj);
         return "https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?".$bizString;
     }
