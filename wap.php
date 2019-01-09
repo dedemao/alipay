@@ -33,7 +33,7 @@ class AlipayService
     protected $orderName;
     public function __construct()
     {
-        $this->charset = 'utf8';
+        $this->charset = 'utf-8';
     }
     public function setAppid($appid)
     {
