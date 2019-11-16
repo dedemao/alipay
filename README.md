@@ -34,6 +34,8 @@ close.php 交易关闭接口
 
 refund.php	退款
 
+b2c.php B2C现金红包
+
 return.php   同步回调通知
 
 notify.php   异步回调通知
