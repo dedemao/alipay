@@ -36,6 +36,8 @@ refund.php	退款
 
 b2c.php B2C现金红包
 
+c2c.php C2C现金红包（请看上面的在线演示）
+
 return.php   同步回调通知
 
 notify.php   异步回调通知
