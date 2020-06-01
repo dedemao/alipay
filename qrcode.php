@@ -7,7 +7,7 @@ $outTradeNo = uniqid();     //你自己的商品订单号，不能重复
 $payAmount = 0.01;          //付款金额，单位:元
 $orderName = '支付测试';    //订单标题
 $signType = 'RSA2';			//签名算法类型，支持RSA2和RSA，推荐使用RSA2
-$rsaPrivateKey='xxxx';		//商户私钥，填写对应签名算法类型的私钥，如何生成密钥参考：https://docs.open.alipay.com/291/105971和https://docs.open.alipay.com/200/105310
+$rsaPrivateKey='xxxxx';		//商户私钥，填写对应签名算法类型的私钥，如何生成密钥参考：https://docs.open.alipay.com/291/105971和https://docs.open.alipay.com/200/105310
 /*** 配置结束 ***/
 $aliPay = new AlipayService();
 $aliPay->setAppid($appid);
@@ -16,12 +16,11 @@ $aliPay->setRsaPrivateKey($rsaPrivateKey);
 $aliPay->setTotalFee($payAmount);
 $aliPay->setOutTradeNo($outTradeNo);
 $aliPay->setOrderName($orderName);
-
 $result = $aliPay->doPay();
 $result = $result['alipay_trade_precreate_response'];
 if($result['code'] && $result['code']=='10000'){
     //生成二维码
-    $url = 'https://www.kuaizhan.com/common/encode-png?large=true&data='.$result['qr_code'];
+    $url = 'https://sapi.k780.com/?app=qr.get&level=H&size=6&data='.$result['qr_code'];
     echo "<img src='{$url}' style='width:300px;'><br>";
     echo '二维码内容：'.$result['qr_code'];
 }else{
@@ -40,7 +39,7 @@ class AlipayService
 
     public function __construct()
     {
-        $this->charset = 'utf8';
+        $this->charset = 'utf-8';
     }
 
     public function setAppid($appid)
@@ -99,7 +98,7 @@ class AlipayService
             'biz_content'=>json_encode($requestConfigs),
         );
         $commonConfigs["sign"] = $this->generateSign($commonConfigs, $commonConfigs['sign_type']);
-        $result = $this->curlPost('https://openapi.alipay.com/gateway.do',$commonConfigs);
+        $result = $this->curlPost('https://openapi.alipay.com/gateway.do?charset='.$this->charset,$commonConfigs);
         return json_decode($result,true);
     }
     public function generateSign($params, $signType = "RSA") {
