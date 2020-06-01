@@ -9,11 +9,11 @@ $outTradeNo = uniqid();     //你自己的商品订单号，不能重复
 $payAmount = 0.1;          //付款金额，单位:元
 $orderName = '支付测试';    //订单标题
 $signType = 'RSA2';			//签名算法类型，支持RSA2和RSA，推荐使用RSA2
-//商户私钥
+//商户私钥，填写对应签名算法类型的私钥，如何生成密钥参考：https://docs.open.alipay.com/291/105971和https://docs.open.alipay.com/200/105310
 $rsaPrivateKey='xxxx';
 /*** 配置结束 ***/
 if(!isInAlipayClient()){
-    echo '<h3>请使用支付宝扫码打开该网页：</h3><img src="https://www.kuaizhan.com/common/encode-png?large=true&data='.getCurrentUrl().'" />';
+    echo '<h3>请使用支付宝扫码打开该网页：</h3><img src="https://sapi.k780.com/?app=qr.get&level=H&size=6&data='.getCurrentUrl().'" />';
     exit();
 }
 $aliPay = new AlipayService();
@@ -143,7 +143,7 @@ class AlipayService
 
     public function __construct()
     {
-        $this->charset = 'utf8';
+        $this->charset = 'utf-8';
     }
     public function setAppid($appid)
     {
@@ -213,7 +213,7 @@ class AlipayService
             'biz_content'=>json_encode($requestConfigs),
         );
         $commonConfigs["sign"] = $this->generateSign($commonConfigs, $commonConfigs['sign_type']);
-        $result = $this->curlPost('https://openapi.alipay.com/gateway.do',$commonConfigs);
+        $result = $this->curlPost('https://openapi.alipay.com/gateway.do?charset='.$this->charset,$commonConfigs);
         return json_decode($result,true);
     }
     public function generateSign($params, $signType = "RSA") {
@@ -380,7 +380,7 @@ class AlipayService
             'code'=>$this->authCode,
         );
         $commonConfigs["sign"] = $this->generateSign($commonConfigs, $commonConfigs['sign_type']);
-        $result = $this->curlPost('https://openapi.alipay.com/gateway.do',$commonConfigs);
+        $result = $this->curlPost('https://openapi.alipay.com/gateway.do?charset='.$this->charset,$commonConfigs);
         $result = iconv('GBK','UTF-8',$result);
         return json_decode($result,true);
     }
