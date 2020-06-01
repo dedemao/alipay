@@ -93,7 +93,6 @@ class AlipayService
         );
         $commonConfigs["sign"] = $this->generateSign($commonConfigs, $commonConfigs['sign_type']);
         $result = $this->curlPost('https://openapi.alipay.com/gateway.do?charset='.$this->charset,$commonConfigs);
-        $result = iconv('GBK','UTF-8',$result);
         return json_decode($result,true);
     }
 
@@ -178,8 +177,7 @@ class AlipayService
             'auth_token'=>$token,
         );
         $commonConfigs["sign"] = $this->generateSign($commonConfigs, $commonConfigs['sign_type']);
-        $result = $this->curlPost('https://openapi.alipay.com/gateway.do',$commonConfigs);
-        $result = iconv('GBK','UTF-8',$result);
+        $result = $this->curlPost('https://openapi.alipay.com/gateway.do?charset='.$this->charset,$commonConfigs);
         return json_decode($result,true);
     }
 
