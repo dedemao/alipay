@@ -7,8 +7,8 @@ $outTradeNo = uniqid();     //你自己的商品订单号，不能重复
 $payAmount = 0.01;          //付款金额，单位:元
 $orderName = '支付测试';    //订单标题
 $signType = 'RSA2';			//签名算法类型，支持RSA2和RSA，推荐使用RSA2
-//商户私钥
-$rsaPrivateKey='';
+//商户私钥，填写对应签名算法类型的私钥，如何生成密钥参考：https://docs.open.alipay.com/291/105971和https://docs.open.alipay.com/200/105310
+$rsaPrivateKey='xxxxx';  
 /*** 配置结束 ***/
 $aliPay = new AlipayService();
 $aliPay->setAppid($appid);
@@ -94,7 +94,7 @@ class AlipayService
     protected $orderName;
     public function __construct()
     {
-        $this->charset = 'utf8';
+        $this->charset = 'utf-8';
     }
     public function setAppid($appid)
     {
