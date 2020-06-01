@@ -23,7 +23,7 @@ class AlipayService
     public function __construct($appid, $saPrivateKey)
     {
         $this->appId = $appid;
-        $this->charset = 'utf8';
+        $this->charset = 'utf-8';
         $this->rsaPrivateKey=$saPrivateKey;
     }
 
@@ -52,7 +52,7 @@ class AlipayService
             'biz_content'=>json_encode($requestConfigs),
         );
         $commonConfigs["sign"] = $this->generateSign($commonConfigs, $commonConfigs['sign_type']);
-        $result = $this->curlPost('https://openapi.alipay.com/gateway.do',$commonConfigs);
+        $result = $this->curlPost('https://openapi.alipay.com/gateway.do?charset='.$this->charset,$commonConfigs);
         return json_decode($result,true);
     }
 
