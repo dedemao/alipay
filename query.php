@@ -86,12 +86,10 @@ class AlipayService
             'app_id' => $this->appId,
             'method' => 'alipay.trade.query',             //接口名称
             'format' => 'JSON',
-            'return_url' => $this->returnUrl,
             'charset'=>$this->charset,
             'sign_type'=>'RSA2',
             'timestamp'=>date('Y-m-d H:i:s'),
             'version'=>'1.0',
-            'notify_url' => $this->notifyUrl,
             'biz_content'=>json_encode($requestConfigs),
         );
         $commonConfigs["sign"] = $this->generateSign($commonConfigs, $commonConfigs['sign_type']);
