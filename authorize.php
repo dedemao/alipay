@@ -5,11 +5,11 @@
  */
 header('Content-type:text/html; Charset=utf-8');
 /*** 请填写以下配置信息 ***/
-$scope = 'auth_base';       //auth_base或auth_userinfo。如果只需要获取用户id，填写auth_base即可。如需获取头像、昵称等信息，则填写auth_userinfo
-$appid = '';    //https://open.alipay.com 账户中心->密钥管理->开放平台密钥，填写开通了“获取会员信息”应用的APPID
+$scope = 'auth_user';       //auth_base或auth_user。如果只需要获取用户id，填写auth_base即可。如需获取头像、昵称等信息，则填写auth_user
+$appid = 'xxxxx';    //https://open.alipay.com 账户中心->密钥管理->开放平台密钥，填写开通了“获取会员信息”应用的APPID
 $signType = 'RSA2';       //签名算法类型，支持RSA2和RSA，推荐使用RSA2
 //商户私钥，填写对应签名算法类型的私钥，如何生成密钥参考：https://docs.open.alipay.com/291/105971和https://docs.open.alipay.com/200/105310
-$rsaPrivateKey='';
+$rsaPrivateKey='xxxxx';
 /*** 配置结束 ***/
 $aliPay = new AlipayService();
 $aliPay->setAppid($appid);
@@ -28,8 +28,8 @@ if($baseInfo = $result['alipay_system_oauth_token_response']){
             echo '<h1>'.$userinfo['error_response']['code'].':'.$userinfo['error_response']['sub_msg'].'</h1>';
             exit();
         }
-        if($userinfo['alipay_user_userinfo_share_response']){
-            $user = $userinfo['alipay_user_userinfo_share_response'];
+        if($userinfo['alipay_user_info_share_response']){
+            $user = $userinfo['alipay_user_info_share_response'];
 			//打印user信息
 			echo "<pre>";
 			print_r($user);die;
@@ -168,7 +168,7 @@ class AlipayService
         $commonConfigs = array(
             //公共参数
             'app_id' => $this->appId,
-            'method' => 'alipay.user.userinfo.share',//接口名称
+            'method' => 'alipay.user.info.share',//接口名称
             'format' => 'JSON',
             'charset'=>$this->charset,
             'sign_type'=>'RSA2',
