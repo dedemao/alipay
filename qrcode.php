@@ -20,7 +20,7 @@ $result = $aliPay->doPay();
 $result = $result['alipay_trade_precreate_response'];
 if($result['code'] && $result['code']=='10000'){
     //生成二维码
-    $url = 'https://sapi.k780.com/?app=qr.get&level=H&size=6&data='.$result['qr_code'];
+    $url = 'https://my.tv.sohu.com/user/a/wvideo/getQRCode.do?width=300&height=300&text='.$result['qr_code'];
     echo "<img src='{$url}' style='width:300px;'><br>";
     echo '二维码内容：'.$result['qr_code'];
 }else{
