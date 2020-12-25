@@ -13,7 +13,7 @@ $signType = 'RSA2';			//签名算法类型，支持RSA2和RSA，推荐使用RSA2
 $rsaPrivateKey='xxxx';
 /*** 配置结束 ***/
 if(!isInAlipayClient()){
-    echo '<h3>请使用支付宝扫码打开该网页：</h3><img src="https://sapi.k780.com/?app=qr.get&level=H&size=6&data='.getCurrentUrl().'" />';
+    echo '<h3>请使用支付宝扫码打开该网页：</h3><img src="https://my.tv.sohu.com/user/a/wvideo/getQRCode.do?width=300&height=300&text='.getCurrentUrl().'" />';
     exit();
 }
 $aliPay = new AlipayService();
