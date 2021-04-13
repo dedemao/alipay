@@ -9,6 +9,7 @@ $result = $aliPay->rsaCheck($_GET,$_GET['sign_type']);
 if($result===true){
     //同步回调一般不处理业务逻辑，显示一个付款成功的页面，或者跳转到用户的财务记录页面即可。
     echo '<h1>付款成功</h1>';
+    exit();
 }
 echo '不合法的请求';exit();
 class AlipayService
