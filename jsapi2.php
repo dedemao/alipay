@@ -54,7 +54,7 @@ if(!$tradeNo){
         if(!isInAlipayClient()):
             ?>
             <h3>请使用支付宝扫码打开该网页：</h3>
-            <img src="https://www.kuaizhan.com/common/encode-png?large=true&data=<?php echo getCurrentUrl()?>" />
+            <img src="https://wenhairu.com/static/api/qr/?size=300&text=<?php echo getCurrentUrl()?>" />
             <?php
         else:
             ?>
