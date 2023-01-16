@@ -35,7 +35,7 @@ $orderStr = $aliPay->getOrderStr();
     if(!isInAlipayClient()):
 ?>
     <h3>请使用支付宝扫码打开该网页：</h3>
-    <img src="http://qr.liantu.com/api.php?text=<?php echo getCurrentUrl()?>" />
+    <img src="https://wenhairu.com/static/api/qr/?size=300&text=<?php echo getCurrentUrl()?>" />
 <?php
     else:
 ?>
