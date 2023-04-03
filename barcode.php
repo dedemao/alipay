@@ -109,7 +109,7 @@ class AlipayService
         );
         $commonConfigs["sign"] = $this->generateSign($commonConfigs, $commonConfigs['sign_type']);
         $result = $this->curlPost('https://openapi.alipay.com/gateway.do?charset='.$this->charset,$commonConfigs);
-        $result = iconv('GBK','UTF-8',$result);
+        //$result = iconv('GBK','UTF-8',$result);
         return json_decode($result,true);
     }
     public function generateSign($params, $signType = "RSA") {
