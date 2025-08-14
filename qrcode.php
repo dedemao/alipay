@@ -20,7 +20,7 @@ $result = $aliPay->doPay();
 $result = $result['alipay_trade_precreate_response'];
 if($result['code'] && $result['code']=='10000'){
     //生成二维码
-    $url = 'https://wenhairu.com/static/api/qr/?size=300&text='.$result['qr_code'];
+    $url = 'https://api.qrcode-monkey.com/qr/custom?size=300&data='.$result['qr_code'];
     echo "<img src='{$url}' style='width:300px;'><br>";
     echo '二维码内容：'.$result['qr_code'];
 }else{
@@ -189,3 +189,4 @@ class AlipayService
         return $data;
     }
 }
+
